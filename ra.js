@@ -28,7 +28,7 @@ async function listarCameras() {
 
     let numero = 1;
 
-    dispositivos.forEach(function (dispositivos){       //começo da func que procura os dispositivos de video
+    dispositivos.forEach(function (dispositivo){       //começo da func que procura os dispositivos de video
 
         if (dispositivo.kind === "videoinput"){ //informa o tipo de dispositivo
 
@@ -45,7 +45,7 @@ async function listarCameras() {
 
     const track = streamCamera.getVideoTracks()[0];
 
-    seletorCamera.valeu = track.getSettings().deviceId; //consulta as configurações efetivas da captura
+    seletorCamera.value = track.getSettings().deviceId; //consulta as configurações efetivas da captura
     seletorCamera.hidden = false;
 }
 
@@ -57,7 +57,7 @@ async function trocarCamera() {
 }
 
 //func real de ativacao da camera
-async function iniciarCamera() {
+async function iniciarCamera(idCamera = null) {
 
     btnCamera.disabled = true;
     seletorCamera.disabled = true;
@@ -67,7 +67,7 @@ async function iniciarCamera() {
         streamCamera = await navigator.mediaDevices.getUserMedia({
             video: idCamera == null                                           //somente video possui acesso
             ? true
-            : {devideId: {exact: idCamera }},
+            : {deviceId: {exact: idCamera }},
 
             audio: false
         });
@@ -207,7 +207,7 @@ carregarMediaPipe().catch(function (erro) {               //carregamento da func
 
 //func para identificar os gestos
 function identificarGesto(){        
-    if (reconhecedor === null || camera.readState < 2){               //se o reconhecedor ja declarado encontrar um estado da camera ou menor q 2 
+    if (reconhecedor === null || camera.readyState < 2){               //se o reconhecedor ja declarado encontrar um estado da camera ou menor q 2 
         console.log("Reconhecedor ou câmera ainda nao pronto.")         // acusa que a camera e o reconhecedor nao estao prontos
         return;
     }
