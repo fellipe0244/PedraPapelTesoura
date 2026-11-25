@@ -88,3 +88,14 @@ aqui ele ocupa um pequeno espaço na pagina*/
     font-size: 28px;
     font-weight: bold;
 }
+
+/*seletor camera frontal/traseira ou webcam nao nativa*/
+
+#seletorCamera {
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #999;
+    border-radius: 8px;
+    max-width: 100%;
+}

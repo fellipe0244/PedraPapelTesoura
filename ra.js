@@ -4,11 +4,12 @@ const btnDesligarCamera = document.getElementById("btnDesligarCamera");
 const camera = document.getElementById("camera");
 const btnIniciarJogada = document.getElementById("btnIniciarJogada");
 const contagem = document.getElementById("contagem");
+const seletorCamera = document.getElementById("seletorCamera");
 
 //constante dos gestos a serem identificados
 const gestos = {
     Closed_Fist: "Pedra",
-    Opem_Palm: "Papel",
+    Open_Palm: "Papel",
     Victory: "Tesoura"
 };
 
@@ -16,6 +17,37 @@ const gestos = {
 let streamCamera = null;
 //reconhedor pipe
 let reconhecedor = null;
+
+//func para identificar as cameras
+
+async function listarCameras() { 
+    
+    const dispositivos = await navigator.mediaDevices.enumerateDevices(); //constante para identificar os dispositivos
+
+    seletorCamera.innerHTML = "";   //comando para camera em html
+
+    let numero = 1;
+
+    dispositivos.forEach(function (dispositivos){       //começo da func que procura os dispositivos de video
+
+        if (dispositivo.kind === "videoinput"){
+
+            const opcao = document.createElement("option");
+
+            opcao.value = dispositivo.deviceId;            
+            opcao.textContent = dispositivo.label || "Câmera " + numero;
+
+            seletorCamera.appendChild(opcao);      //app que chama a camera e escolhe em seguida qual é 
+
+            numero++;
+        }
+    });
+
+    const track = streamCamera.getVideoTracks()[0];
+
+    seletorCamera.valeu = track.getSettings().deviceId;
+    seletorCamera.hidden = false;
+}
 
 //func real de ativacao da camera
 async function iniciarCamera() {
