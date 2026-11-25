@@ -32,7 +32,7 @@ button:hover {
 
 #resultado {  /*txt do result ou aguard*/
     margin-top: 30px;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
@@ -55,4 +55,17 @@ aqui ele ocupa um pequeno espaço na pagina*/
 
 #cenaVR canvas:active {
     cursor: grabbing;
+}
+
+/*icones e paineis*/
+
+#duelo:not([hidden]) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+#iconeJogador, #iconeMaquina {
+    font-size: 65px;
 }

@@ -20,9 +20,25 @@
         <p>Escolha sua jogada:</p>
 
         <!--criacao dos btns principais-->
-        <button id="btnPedra">Pedra</button>
-        <button id="btnPapel">Papel</button>
-        <button id="btnTesoura">Tesoura</button>
+        <button id="btnPedra">🪨Pedra</button>
+        <button id="btnPapel">📄Papel</button>
+        <button id="btnTesoura">✂️Tesoura</button>
+
+        <!--div para o duelo card-->
+
+        <div id="duelo" hidden>
+            <div>
+                <h3>Jogador</h3>
+                <span id="iconeJogador"></span>
+            </div>
+
+            <span>|</span>
+
+            <div>
+                <h3>Maquina</h3>
+                <span id="iconeMaquina"></span>
+            </div>
+        </div>
 
         <!--result-->
         <p id="resultado">Aguardando sua jogada...</p> 
@@ -110,7 +126,7 @@
         </div>
 
         <!--btn mapeado no fim pra jogar novamente-->
-        <button id="btnNovamente">Jogar novamente</button>
+        <button id="btnNovamente" hidden>Jogar novamente</button> <!--hidden para aparecer so depois de jogar-->
 
     </main>
 </body>

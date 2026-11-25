@@ -17,6 +17,18 @@ const cenaVR = document.getElementById("cenaVR");
 const grupoObjetos = document.getElementById("grupoObjetos");
 const giroAutomatico = document.getElementById("giroAutomatico");
 
+//parte do meio duelo
+const duelo = document.getElementById("duelo");
+const iconeJogador = document.getElementById("iconeJogador");
+const iconeMaquina = document.getElementById("iconeMaquina");
+
+//icones objs part duelo
+const icones ={
+    Pedra: "🪨",
+    Papel: "📄",
+    Tesoura: "✂️"
+};
+
 //identificar btns no nav console
 console.log(btnPedra);
 console.log(btnPapel);
@@ -35,6 +47,26 @@ console.log(sortearJogada());
 console.log(compararJogadas("Pedra", "Tesoura"));
 console.log(compararJogadas("Pedra", "Papel"));
 console.log(compararJogadas("Pedra", "Pedra"));
+
+//exibição inicial do resultado
+function exibirResultado(jogador, maquina, vencedor) { //func para exibir o resultado, chamando as funcs
+    duelo.hidden = false;
+    btnNovamente.hidden = false;
+
+    iconeJogador.textContent = icones[jogador];
+    iconeMaquina.textContent = icones[maquina];
+
+    if (vencedor === "jogador") {                     //se o vencedor for o jogador
+        resultado.textContent = "JOGADOR VENCEU!";
+        resultado.style.color = "green";  //saida para jogador vencendo e assim sucessivamemte
+    } else if (vencedor === "maquina") {
+        resultado.textContent = "MÁQUINA VENCEU!";
+        resultado.style.color = "red";
+    } else {
+        resultado.textContent = "EMPATE!";  //se der empate, empate 
+        resultado.style.color = "black";
+    }
+}
 
 // func caso escolher pedra
 btnPedra.addEventListener("click", function () {
@@ -89,9 +121,7 @@ function jogar(jogador) {
     const maquina = sortearJogada();                              //usa func sortear jogada pra saber a jogada da maquina
     const vencedor = compararJogadas(jogador, maquina);           //usa func comparar jogadas para saber vecendor
 
-    resultado.textContent = "Jogador: " + jogador +
-        " | Máquina: " + maquina +
-        " | Resultado: " + vencedor;                        //saida pra quem ganhou
+    exibirResultado(jogador, maquina, vencedor);     //saida para chamar a func apresentacao 1 
 
         //se o vencedor for o jogador, exibe o objeto jogador
     if (vencedor === "jogador") { 
@@ -126,11 +156,16 @@ function exibirObjeto(jogada) {
 //btn pra jogar novamente
 btnNovamente.addEventListener("click", function () {
     exibirObjeto(null);
+
+    duelo.hidden = true;              //se o duelo ja tiver acontecido, o btn aparece
+    btnNovamente.hidden = true;
+
     resultado.textContent = "Aguardando sua jogada...";   //saida após o click
+    resultado.style.color = "";
 });
 
 //giro 360
-let arrastando = false; //bloqueia o arrastar para ficar fixo no objeto
+let arrastando = false; //controla se o usuario esta arrastando o objeto var 
 let ultimoX = 0;
 let ultimoY = 0;
 
@@ -163,7 +198,7 @@ cenaVR.addEventListener("pointermove", function (evento) { //cria evento de func
 
     const rotacao = grupoObjetos.getAttribute("rotation");
 
-    grupoObjetos.setAttribute("rotation", { //atributo da sensibilidade da rotacao nos eixos
+    grupoObjetos.setAttribute("rotation", { //rotação do objeto com base no deslocamento do ponteiro
         x: rotacao.x + (evento.clientY - ultimoY) * 0.5,
         y: rotacao.y + (evento.clientX - ultimoX) * 0.5,
         z: rotacao.z
@@ -176,7 +211,7 @@ cenaVR.addEventListener("pointermove", function (evento) { //cria evento de func
 cenaVR.addEventListener("lostpointercapture", function () { // func para identificar Identifica quando termina a captura do ponteiro.
     arrastando = false;
 
-    if(!pincaAtiva) {
+    if(!pincaAtiva) { //operador em negação para nao atrapalhar o fluxo 
     giroAutomatico.emit("retomarGiro"); //retoma o giro depois que o usr para de interagir
     }
 });
@@ -186,8 +221,8 @@ cenaVR.addEventListener("lostpointercapture", function () { // func para identif
 let zoom = 1; //variavel zomm 100% tmh original
 
 function aplicarZoom(valor) {  //nova func para aplicar o zomm
-    zoom = Math.max(0.6, Math.min (1.5, valor)); //config ajustada usando o maximo do zoom em 0.6 e o min em 1.5 
-    //sai de 100% para 160% 
+    zoom = Math.max(0.6, Math.min (1.8, valor)); //config ajustada usando o maximo do zoom em 0.6 e o min em 1.5 
+    //sai de 100% para 60% e vai de 100/60% a 180%
 
     grupoObjetos.setAttribute("scale", { //chama func de objeto e aplica escala nos eixos x,y,z
         x: zoom,
