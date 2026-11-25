@@ -22,22 +22,22 @@ let reconhecedor = null;
 
 async function listarCameras() { 
     
-    const dispositivos = await navigator.mediaDevices.enumerateDevices(); //constante para identificar os dispositivos
+    const dispositivos = await navigator.mediaDevices.enumerateDevices(); //constante para identificar e listar os dispositivos
 
-    seletorCamera.innerHTML = "";   //comando para camera em html
+    seletorCamera.innerHTML = "";   //cria elemento html pelo js
 
     let numero = 1;
 
     dispositivos.forEach(function (dispositivos){       //começo da func que procura os dispositivos de video
 
-        if (dispositivo.kind === "videoinput"){
+        if (dispositivo.kind === "videoinput"){ //informa o tipo de dispositivo
 
             const opcao = document.createElement("option");
 
             opcao.value = dispositivo.deviceId;            
-            opcao.textContent = dispositivo.label || "Câmera " + numero;
+            opcao.textContent = dispositivo.label || "Câmera " + numero; //nome do dispositivo
 
-            seletorCamera.appendChild(opcao);      //app que chama a camera e escolhe em seguida qual é 
+            seletorCamera.appendChild(opcao);      //ap insere criado elemento dentro de outro  
 
             numero++;
         }
@@ -45,17 +45,30 @@ async function listarCameras() {
 
     const track = streamCamera.getVideoTracks()[0];
 
-    seletorCamera.valeu = track.getSettings().deviceId;
+    seletorCamera.valeu = track.getSettings().deviceId; //consulta as configurações efetivas da captura
     seletorCamera.hidden = false;
+}
+
+//func para trocar de cameras
+async function trocarCamera() {
+    const idCamera = seletorCamera.value;
+    desligarCamera();
+    await iniciarCamera(idCamera);
 }
 
 //func real de ativacao da camera
 async function iniciarCamera() {
+
+    btnCamera.disabled = true;
+    seletorCamera.disabled = true;
     
     try{  // o inicio da funcao chamando as constantes mapeadas 
 
         streamCamera = await navigator.mediaDevices.getUserMedia({
-            video: true,                                          //somente video possui acesso
+            video: idCamera == null                                           //somente video possui acesso
+            ? true
+            : {devideId: {exact: idCamera }},
+
             audio: false
         });
 
@@ -63,13 +76,29 @@ async function iniciarCamera() {
         camera.hidden = false;
         btnCamera.hidden = true;           //btn camera habilitado
         btnDesligarCamera.hidden = false;        //so depois da camera ligar que esse aparece 
+        btnIniciarJogada.hidden = false;
+
+        const track = streamCamera.getVideoTracks()[0];
+
+        const configuracao = track.getSettings();
+
+        if(configuracao.facingMode === "environment"){
+            camera.style.transform = "none";
+        }else {
+            camera.style.transform = "scaleX(-1)";
+
+        }
+
+        await listarCameras();
     }
     catch (erro){                         //catch para caso ocorra algum erro ter retorno e nao parecer travado
         console.log(erro);
+        desligarCamera();
         alert("Não foi possivel iniciar a câmera.");
+    } finally {
+        btnCamera.disabled = false;
+        seletorCamera.disabled = false;
     }
-
-    btnIniciarJogada.hidden = false;
     
 }
 
@@ -85,6 +114,8 @@ function desligarCamera(){                  //func para desligar a camera
     streamCamera = null;
     camera.srcObject = null;
 
+
+    seletorCamera.hidden = true;
     camera.hidden = true;                  //camera ligada
     btnCamera.hidden = false;                   //btn destivado
     btnDesligarCamera.hidden = true;            //btn para desligar ativado
@@ -99,7 +130,13 @@ function desligarCamera(){                  //func para desligar a camera
 }
 
 //mapeamento e evento dos btns
-btnCamera.addEventListener("click", iniciarCamera);
+btnCamera.addEventListener("click", function(){
+    iniciarCamera();
+});
+
+//evento para selecionar camera
+
+seletorCamera.addEventListener("change", trocarCamera);
 
 btnDesligarCamera.addEventListener("click", desligarCamera);
 
