@@ -69,3 +69,22 @@ aqui ele ocupa um pequeno espaço na pagina*/
 #iconeJogador, #iconeMaquina {
     font-size: 65px;
 }
+
+/*area da realidade aumentada*/
+
+#painelRA {
+    margin: 20px 0;
+}
+
+#camera {
+    width: 100%;
+    border-radius: 12px;
+    transform: scaleX(-1);
+}
+
+/*area da contagem*/
+
+#contagem {
+    font-size: 28px;
+    font-weight: bold;
+}

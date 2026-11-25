@@ -10,6 +10,7 @@
     <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
     
     <script src="index.js" defer></script>
+    <script src="ra.js" defer></script>
 
 </head>
 <body>
@@ -23,6 +24,22 @@
         <button id="btnPedra">🪨Pedra</button>
         <button id="btnPapel">📄Papel</button>
         <button id="btnTesoura">✂️Tesoura</button>
+
+        <!--area da camera utilizando RA e jogadas c camera-->
+        <section id="painelRA">
+            <button id="btnCamera">📸​ Ativar câmera</button> <!--btn pra ligar camera-->
+
+            <button id="btnDesligarCamera" hidden> <!--so aparece se ja tiver ligado-->
+                Desligar câmera
+            </button>
+
+            <video id="camera" autoplay playsinline muted hidden> <!--inline permite reproduzir dentro da pag-->
+            </video>
+
+            <button id="btnIniciarJogada" hidden>Iniciar Jogo</button>
+            <p id="contagem"></p>                                  <!--paragrafo para contagem-->
+
+        </section>
 
         <!--div para o duelo card-->
 
