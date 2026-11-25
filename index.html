@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedra, Papel e Tesoura</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!--importacao do aframe-->
+    <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+    
+    <script src="index.js" defer></script>
+
+</head>
+<body>
+    <!--coments
+    estrutura geral e mapeamento icones-->
+    <main>
+        <h1>Pedra, Papel e Tesoura</h1>
+        <p>Escolha sua jogada:</p>
+
+        <!--criacao dos btns principais-->
+        <button id="btnPedra">Pedra</button>
+        <button id="btnPapel">Papel</button>
+        <button id="btnTesoura">Tesoura</button>
+
+        <!--result-->
+        <p id="resultado">Aguardando sua jogada...</p> 
+
+        <div id="painelVR" hidden>
+        <!--montagem da cena de realidade virtual-->
+        <a-scene id="cenaVR" embedded background="color: #6982ba"> <!--cor do fundo-->
+
+            <!--fixacao da camera nos objetos permitindo360-->
+            <a-entity camera
+                position="0 1.6 0"
+                look-controls="mouseEnabled: false; touchEnabled: false; magicWindowTrackingEnabled: false"
+                wasd-controls="enabled: false">
+            </a-entity>
+
+            <!--animacao de rotacao, com lopping ativado-->
+            <a-entity id="grupoObjetos" position="0 1.6 -3">
+
+                <!--animacao para rodar o objeto automaticamente-->
+            <a-entity id="giroAutomatico"
+                animation="property: rotation;
+                        from: 0 0 0;
+                        to: 0 360 0;
+                        loop: true;
+                        dur: 6000;
+                        easing: linear;
+                        pauseEvents: pausarGiro;
+                        resumeEvents: retomarGiro">
+
+                        <!--uso da esfera para simular a pedra-->
+                        <!--segments width reduz as subdivisões horizontais.
+                        o heigth reduz as subdivisões verticais.
+                        efeito pedra-->
+                <a-sphere id="objPedra"
+                    radius="0.85"
+                    color="gray"
+                    segments-width="7"  
+                    segments-height="5"
+                    scale="1.2 0.8 1"
+                    material="flatShading: true"
+                    visible="false">
+                </a-sphere>
+                        <!--uso do quadrado retangulo para simular o papel-->
+                <a-box id="objPapel"
+                    width="0.9"
+                    height="1.2"
+                    depth="0.025"
+                    color="white"
+                    visible="false">
+                </a-box>
+                        <!--uso da enttity pra simular a tesoura-->
+                        <!--uam entidade composta para simular a tesoura-->
+                <a-entity id="objTesoura" visible="false">
+
+                    <!--anel criado para simular o anel de um lado da tesoura-->
+                    <a-torus position="-0.23 -0.35 0"
+                        radius="0.18"
+                        radius-tubular="0.045"
+                        color="#333333">
+                    </a-torus>
+                    <!--anel criado para simular o anel de outro lado da tesoura-->
+                    <a-torus position="0.23 -0.35 0"
+                        radius="0.18"
+                        radius-tubular="0.045"
+                        color="#333333">
+                    </a-torus>
+                    <!--quadrado estendido para simular parte cortante da tesoura-->
+                    <a-box position="-0.16 0.23 0"
+                        width="0.12" height="0.85" depth="0.06"
+                        rotation="0 0 25" color="silver">
+                    </a-box>
+                    <!--quadrado estendido para simular parte cortante da tesoura-->
+                    <a-box position="0.16 0.23 0.06"
+                        width="0.12" height="0.85" depth="0.06"
+                        rotation="0 0 -25" color="silver">
+                    </a-box>
+
+                </a-entity>
+
+            </a-entity>
+
+        </a-scene>
+        </div>
+
+        <!--btn mapeado no fim pra jogar novamente-->
+        <button id="btnNovamente">Jogar novamente</button>
+
+    </main>
+</body>
+</html>
