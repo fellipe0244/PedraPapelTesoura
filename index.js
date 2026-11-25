@@ -167,4 +167,5 @@ cenaVR.addEventListener("pointermove", function (evento) { //cria evento de func
 
 cenaVR.addEventListener("lostpointercapture", function () { // func para identificar Identifica quando termina a captura do ponteiro.
     arrastando = false;
+    
 });
