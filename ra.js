@@ -257,7 +257,10 @@ function identificarGesto(){
     console.log(leitura);
 
         if (leitura.gestures.length === 0 ||         //para interpretacao no console 
-        leitura.gestures[0].length === 0) {         
+        leitura.gestures[0].length === 0) {    
+            
+        contagem.textContent = "Nenhum gesto identificado, tente novamente.";
+
         console.log("Nenhum gesto identificado.");
         return;
     }
@@ -280,6 +283,9 @@ function identificarGesto(){
     contagem.textContent = "Jogada Identificada: " + jogada;  //usa constante da contagem  para dar saida ao texto 
 
     console.log("Jogada:", jogada);
+
+    desligarCamera(); //apos identificar, desligamos a camera para iniciar a jogada e sair da RA e ir para RV
+    jogar(jogada);
 
 }
 
