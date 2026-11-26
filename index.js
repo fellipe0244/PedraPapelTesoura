@@ -4,6 +4,7 @@ const btnPedra = document.getElementById("btnPedra");
 const btnPapel = document.getElementById("btnPapel");
 const btnTesoura = document.getElementById("btnTesoura");
 const resultado = document.getElementById("resultado");
+const jogadaManual = document.getElementById("jogadaManual");
 
 //constantes da realidade virtual e interação com os objetos
 const objPedra = document.getElementById("objPedra");
@@ -16,6 +17,7 @@ const painelVR = document.getElementById("painelVR");
 const cenaVR = document.getElementById("cenaVR");
 const grupoObjetos = document.getElementById("grupoObjetos");
 const giroAutomatico = document.getElementById("giroAutomatico");
+const painelRA = document.getElementById("painelRA");
 
 //parte do meio duelo
 const duelo = document.getElementById("duelo");
@@ -52,6 +54,9 @@ console.log(compararJogadas("Pedra", "Pedra"));
 function exibirResultado(jogador, maquina, vencedor) { //func para exibir o resultado, chamando as funcs
     duelo.hidden = false;
     btnNovamente.hidden = false;
+    painelRA.hidden = true;  //esconde o painel de acesso a camera 
+    jogadaManual.hidden = true;    //esconde btns manuais
+
 
     iconeJogador.textContent = icones[jogador];
     iconeMaquina.textContent = icones[maquina];
@@ -159,6 +164,8 @@ btnNovamente.addEventListener("click", function () {
 
     duelo.hidden = true;              //oculta a div duelo
     btnNovamente.hidden = true;
+    painelRA.hidden = false;   //mostra o painel RA novamente
+    jogadaManual.hidden = false;      //mostra os btns manuais novamente
 
     resultado.textContent = "Aguardando sua jogada...";   //saida após o click
     resultado.style.color = "";

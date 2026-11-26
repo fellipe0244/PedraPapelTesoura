@@ -73,7 +73,7 @@ async function listarCameras() {
 //func para trocar de cameras
 async function trocarCamera() {
     const idCamera = seletorCamera.value;           //armazena id da camera selecionada 
-    desligarCamera();                                    //aplica a funcao para desligar a camera que estava online 
+    desligarCamera(false);                                    
     await iniciarCamera(idCamera);                     // e apos desligar a que estava online, inicia a escolhida 
 }
 
@@ -94,6 +94,7 @@ async function iniciarCamera(idCamera = null) {
         });
 
         camera.srcObject = streamCamera;
+        jogadaManual.hidden = true;   //esconde os btns de jogada manual caso o user joggue pela camera e ela inicie corretamente
         camera.hidden = false;
         btnCamera.hidden = true;           //oculta o btn de camera 
         btnDesligarCamera.hidden = false;        //so depois da camera ligar que esse aparece 
@@ -119,6 +120,7 @@ async function iniciarCamera(idCamera = null) {
     catch (erro){                         //catch para caso ocorra algum erro ter retorno e nao parecer travado
         console.log(erro);
         desligarCamera();
+        jogadaManual.hidden = false;   //caso der erro ao ativar, volta os btns de jogada manual
         alert("Não foi possivel iniciar a câmera.");
     } finally {
         btnCamera.disabled = false;
@@ -127,10 +129,12 @@ async function iniciarCamera(idCamera = null) {
     
 }
 
-function desligarCamera(){                  //func para desligar a camera 
+function desligarCamera(restaurarBotoes = true){                  //func para desligar a camera e restaurar os btns manuais
     if (streamCamera === null){                     //encerra a func se nao houver transmissao rolando
         return;
     }
+
+    jogadaManual.hidden = !restaurarBotoes;  //restaura os btns que estavam ocultos
 
     streamCamera.getTracks().forEach(function (track){                  //aplica o stop para parar o processo utilizando a variavel streamcamera criada
         track.stop();
@@ -173,7 +177,9 @@ btnCamera.addEventListener("click", function(){
 
 seletorCamera.addEventListener("change", trocarCamera);   
 
-btnDesligarCamera.addEventListener("click", desligarCamera); 
+btnDesligarCamera.addEventListener("click", function(){
+    desligarCamera();
+}); 
 
 
 //funcao da contagem regressiva, serve para o jogador preparar o gesto
@@ -284,7 +290,7 @@ function identificarGesto(){
 
     console.log("Jogada:", jogada);
 
-    desligarCamera(); //apos identificar, desligamos a camera para iniciar a jogada e sair da RA e ir para RV
+    desligarCamera(false); 
     jogar(jogada);
 
 }
