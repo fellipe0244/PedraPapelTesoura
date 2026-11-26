@@ -33,13 +33,13 @@
                 Desligar câmera
             </button>
 
-            <select id="seletorCamera" aria-label="Selecionar câmera" hidden></select>
+            <select id="seletorCamera" aria-label="Selecionar câmera" hidden></select>  <!--id criado para criar func dentro do rajs-->
 
             <div id="areaCamera">
             <video id="camera" autoplay playsinline muted hidden> <!--inline permite reproduzir dentro da pag-->
             </video>
 
-            <canvas id="canvasRA"></canvas>
+            <canvas id="canvasRA"></canvas>  <!--id criado para criar func e constantes no rajs para RA - Superfície utilizada para desenhar elementos virtuais -->
             </div>
 
             <button id="btnIniciarJogada" hidden>Iniciar Jogo</button>
@@ -72,7 +72,7 @@
 
             <!--fixacao da camera nos objetos permitindo360-->
             <a-entity camera
-                position="0 1.6 0"
+                position="0 1.6 0" 
                 look-controls="mouseEnabled: false; touchEnabled: false; magicWindowTrackingEnabled: false"
                 wasd-controls="enabled: false">
             </a-entity>

@@ -9,13 +9,13 @@ body {
 
 
 main {
-    max-width: 600px;   /*margem geral pagina*/
+    max-width: 600px;   /*largura max da pag*/
     margin: 60px auto;
 }
 
 /*estilização restante individual */
 button {
-    padding: 15px 25px; /*localizacao real*/
+    padding: 15px 25px; /*localizacao real - define espacamento interno*/ 
     margin: 5px;
     font-size: 18px;
     cursor: pointer; 

@@ -157,7 +157,7 @@ function exibirObjeto(jogada) {
 btnNovamente.addEventListener("click", function () {
     exibirObjeto(null);
 
-    duelo.hidden = true;              //se o duelo ja tiver acontecido, o btn aparece
+    duelo.hidden = true;              //oculta a div duelo
     btnNovamente.hidden = true;
 
     resultado.textContent = "Aguardando sua jogada...";   //saida após o click
@@ -221,7 +221,7 @@ cenaVR.addEventListener("lostpointercapture", function () { // func para identif
 let zoom = 1; //variavel zomm 100% tmh original
 
 function aplicarZoom(valor) {  //nova func para aplicar o zomm
-    zoom = Math.max(0.6, Math.min (1.8, valor)); //config ajustada usando o maximo do zoom em 0.6 e o min em 1.5 
+    zoom = Math.max(0.6, Math.min (1.8, valor)); //limita o zoom entre 60% e 180%
     //sai de 100% para 60% e vai de 100/60% a 180%
 
     grupoObjetos.setAttribute("scale", { //chama func de objeto e aplica escala nos eixos x,y,z
@@ -250,11 +250,11 @@ cenaVR.addEventListener("wheel", function (evento) {      //adiciona mais um eve
 // zoom no celular 
 
 let distanciaAnterior = 0; //variavel para indicar o começo da distancia 
-let pincaAtiva = false;  //variavel para indicar se o movimento ta sendo feito no celular 
+let pincaAtiva = false;  //variavel para indicar se o movimento ta sendo feito no celular ver se o gesto pinca ta ativo
 
 //criacao da func para distanciar os dedos, aumentando zoom 
 function distanciaDedos(dedos){
-    return Math.hypot(                            //hypot dentro do math para ter a chamada do movimento dos dedos  
+    return Math.hypot(                            //hypot dentro do math para ter a chamada do movimento dos dedos  - distancia entre os dedos 
         dedos[1].clientX - dedos[0].clientX,      // espaço de aumento de zoom
         dedos[1].clientY - dedos[0].clientY
     );
@@ -287,7 +287,7 @@ cenaVR.addEventListener("touchmove", function (evento){  //continuação do even
 function finalizarPinca(evento){                        //func para finalizar a interação por celular 
     if(pincaAtiva && evento.touches.length === 0){         //se nao houver toques
         pincaAtiva = false;                                 // desativa a func
-        distanciaAnterior = 0;                              // e volta a posição anterior retomando o giro
+        distanciaAnterior = 0;                              // limpa a distancia armezenada no caso dos dedos sem restaurar o zoom 
         giroAutomatico.emit("retomarGiro")
     }
 }
