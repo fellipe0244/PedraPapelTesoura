@@ -6,6 +6,11 @@ const btnIniciarJogada = document.getElementById("btnIniciarJogada");
 const contagem = document.getElementById("contagem");
 const seletorCamera = document.getElementById("seletorCamera");
 
+//constantes para o canvasra
+const canvasRA = document.getElementById("canvasRA");
+const contextoRA = canvasRA.getContext("2d");  //interface q traz os metodos do desenho
+
+
 //constante dos gestos a serem identificados
 const gestos = {
     Closed_Fist: "Pedra",
@@ -87,7 +92,9 @@ async function iniciarCamera(idCamera = null) {
         }else {
             camera.style.transform = "scaleX(-1)";
 
-        }
+        } //aqui determina o espelhamento da camera
+
+        canvasRA.style.transform = camera.style.transform;
 
         await listarCameras();
     }
@@ -127,6 +134,10 @@ function desligarCamera(){                  //func para desligar a camera
     clearInterval(intervalo);
     intervalo = null;
     btnIniciarJogada.disabled = false;
+
+    contextoRA.clearRect(
+    0, 0, canvasRA.width, canvasRA.height
+    );
 }
 
 //mapeamento e evento dos btns
@@ -217,6 +228,11 @@ function identificarGesto(){
         performance.now()
     );
 
+    canvasRA.width = camera.videoWidth;
+    canvasRA.height = camera.videoHeight;
+
+    desenharPontos(leitura);
+
     console.log(leitura);
 
         if (leitura.gestures.length === 0 ||         //para interpretacao no console 
@@ -235,7 +251,7 @@ function identificarGesto(){
 
     const jogada = gestos[gesto];  //constante para juntar a jogada com o gesto identificado
 
-    if (jogada === undefined || confianca < 0.55){
+    if (jogada === undefined || confianca < 0.65){
         contagem.textContent = "Gesto invalido, inicie novamente e tente outro"; // saida caso a confiança fique em um nivel baixo de reconhecimento
         return;
     }
@@ -244,4 +260,30 @@ function identificarGesto(){
 
     console.log("Jogada:", jogada);
 
+}
+
+//funcao desenho pontos
+function desenharPontos(leitura) {
+
+    contextoRA.clearRect(
+        0, 0, canvasRA.width, canvasRA.height
+    );
+
+    if (leitura.landmarks.length === 0) {
+        return;
+    }
+
+    const pontos = leitura.landmarks[0];
+
+    pontos.forEach(function (ponto) {
+
+        const x = ponto.x * canvasRA.width;
+        const y = ponto.y * canvasRA.height;
+
+        contextoRA.beginPath();
+        contextoRA.arc(x, y, 4, 0, Math.PI * 2);
+        contextoRA.fillStyle = "lime";
+        contextoRA.fill();
+
+    });
 }
