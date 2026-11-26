@@ -10,6 +10,9 @@ const seletorCamera = document.getElementById("seletorCamera");
 const canvasRA = document.getElementById("canvasRA");
 const contextoRA = canvasRA.getContext("2d");  //interface q traz os metodos do desenho
 
+//pop up
+const popupGestos = document.getElementById("popupGestos");
+const btnOkGestos = document.getElementById("btnOkGestos");
 
 //constante dos gestos a serem identificados
 const gestos = {
@@ -38,6 +41,9 @@ let reconhecedor = null;
 let quadroRA = null;                                        //armazena o identificador do proxximo processamento agendado
 let ultimaLeitura = null;                                   //criada para guardar o ultimo reconhecimento realizado
 let ultimoTempoVideo = -1;                                  //evita processar repetidamente a mesma imagem do video
+
+//variavel pop up
+let avisoVisualizado = false; 
 
 //func para identificar as cameras
 
@@ -170,8 +176,21 @@ function desligarCamera(restaurarBotoes = true){                  //func para de
 
 //mapeamento e evento dos btns
 btnCamera.addEventListener("click", function(){
+
+    if (!avisoVisualizado){
+        popupGestos.hidden = false;            //se o popup ja tiver sido visualizado, nao mostra ele novamente ao iniciar a camera uma segunda vez, e sucessivamente, desde que nao recarregue a pag
+        return;
+    }
     iniciarCamera();
 });
+
+btnOkGestos.addEventListener("click", function(){
+
+    avisoVisualizado = true;
+    popupGestos.hidden = true;
+
+    iniciarCamera();
+})
 
 //evento para selecionar camera
 

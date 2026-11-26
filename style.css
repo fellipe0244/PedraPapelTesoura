@@ -118,3 +118,28 @@ aqui ele ocupa um pequeno espaço na pagina*/
     height: 100%;
     pointer-events: none;
 }
+
+/*pop up instrucao*/
+
+#popupGestos:not([hidden]) {
+    position: fixed;                      /*fixa na tela*/
+    inset: 0;                                   /*ocupa toda a area*/
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;                    /* popup acima dos demais elementos*/
+}
+
+#conteudoPopup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 600px;
+    text-align: center;
+}
+
+#conteudoPopup img {
+    width: 100%;
+}
