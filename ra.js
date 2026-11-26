@@ -300,7 +300,7 @@ function identificarGesto(){
 
     const jogada = gestos[gesto];  //constante para juntar a jogada com o gesto identificado
 
-    if (jogada === undefined || confianca < 0.65){ 
+    if (jogada === undefined || confianca < 0.65){            //nivel de confiança baseado em 65 por cento de acerto
         contagem.textContent = "Gesto invalido, inicie novamente e tente outro"; // saida caso a confiança fique em um nivel baixo de reconhecimento
         return;
     }
